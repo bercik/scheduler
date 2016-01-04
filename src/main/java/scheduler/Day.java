@@ -20,9 +20,9 @@ public enum Day
     Sunday;
     
     public Day next(){
-		return values()[(ordinal()+1)% values().length];
-	}
-	public Day previous(){
-		return values()[(ordinal()-1)% values().length];
-	}
+	return values()[(ordinal()+1)% values().length];
+    }
+    public Day previous(){
+	return values()[(ordinal()-1)% values().length];
+    }
 }
