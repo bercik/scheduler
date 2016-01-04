@@ -18,4 +18,11 @@ public enum Day
     Friday, 
     Saturday, 
     Sunday;
+    
+    public Day next(){
+		return values()[(ordinal()+1)% values().length];
+	}
+	public Day previous(){
+		return values()[(ordinal()-1)% values().length];
+	}
 }
