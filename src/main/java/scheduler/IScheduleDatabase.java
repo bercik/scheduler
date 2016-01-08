@@ -5,6 +5,7 @@
  */
 package scheduler;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -21,4 +22,10 @@ public interface IScheduleDatabase
             throws Item.OverlappingDateException;
     
     public List<Item> getAllItems();
+    
+    public void save(String filename) throws IOException;
+    
+    public void load(String filename) throws 
+            IOException, Date.BadDateException, Item.BadDatesException,
+            Item.OverlappingDateException;
 }

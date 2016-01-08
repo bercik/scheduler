@@ -5,6 +5,7 @@
  */
 package scheduler;
 
+import java.io.IOException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -87,7 +88,7 @@ public class ScheduleLocalDatabaseTest
         System.out.println("removeItem");
         Item i = new Item(new Date(15, 30, Day.Wednesday), new Date(17, 00,
                 Day.Wednesday), "Bazy danych Lab.", "Grażyna Krupińska",
-                "D-10", "209");
+                "D10", "209");
         
         List<Item> items = sld.getAllItems();
         boolean expResult = false;
@@ -142,7 +143,7 @@ public class ScheduleLocalDatabaseTest
         Item oldI = sld.getAllItems().get(0);
         String newName = "Matematyka stosowana Lab.";
         Item newI = new Item(oldI.getStart(), oldI.getEnd(), 
-                newName, "Małgorzata Zwonek", "D11", "104");
+                newName, "Małgorzata Zwonek", "D10, D11", "104");
         
         sld.editItem(oldI, newI);
         
@@ -169,5 +170,23 @@ public class ScheduleLocalDatabaseTest
         }
         
         assertEquals(catched, expResult);
+    }
+    
+    @Test
+    public void testSaveAndLoad() throws Exception
+    {
+        System.out.println("saveAndLoad");
+        
+        String fileName = "schedule.csv";
+        
+        List<Item> itemsBeforeSaveLoad = sld.getAllItems();
+        
+        sld.save(fileName);
+        sld.load(fileName);
+        
+        List<Item> itemsAfterSaveLoad = sld.getAllItems();
+        
+        assertArrayEquals(itemsBeforeSaveLoad.toArray(new Item[0]),
+                itemsAfterSaveLoad.toArray(new Item[0]));
     }
 }
