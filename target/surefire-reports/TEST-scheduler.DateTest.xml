@@ -59,9 +59,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
+  <testcase time="0" classname="scheduler.DateTest" name="testIsAfterOrEqual"/>
   <testcase time="0" classname="scheduler.DateTest" name="testConstructor"/>
+  <testcase time="0" classname="scheduler.DateTest" name="testIsBefore"/>
   <testcase time="0" classname="scheduler.DateTest" name="testIsAfter"/>
   <testcase time="0" classname="scheduler.DateTest" name="testIsBeforeOrEqual"/>
-  <testcase time="0" classname="scheduler.DateTest" name="testIsAfterOrEqual"/>
-  <testcase time="0" classname="scheduler.DateTest" name="testIsBefore"/>
 </testsuite>
