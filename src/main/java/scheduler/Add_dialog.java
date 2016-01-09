@@ -8,14 +8,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 public class Add_dialog extends JDialog implements ActionListener{
@@ -132,13 +136,11 @@ public Add_dialog(){
 	add.addActionListener(this);
 	cs.gridx=0;
 	cs.gridy=7;
-	//cs.gridwidth=1;
 	panel.add(add, cs);
 	cancel=new JButton("Anuluj");
 	cancel.addActionListener(this);
 	cs.gridx=1;
 	cs.gridy=7;
-	//cs.gridwidth=1;
 	panel.add(cancel,cs);
 	super.setContentPane(panel);
 	super.pack();
@@ -162,8 +164,9 @@ public void actionPerformed(ActionEvent e){
 		String fac=faculty.getText();
 		item=new Item(start,stop,name,lead,fac,r);
 		Menu_Panel.data.addItem(item);
+		super.setVisible(false);
 		}catch(Exception ex){
-			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(this,"Nie można dodać przedmiotu!");
 		}
 		
 		DefaultListModel lista=new DefaultListModel();
@@ -179,11 +182,27 @@ public void actionPerformed(ActionEvent e){
 			lista.addElement(""+i.getName()+","+i.getStart().getDay()+","+sh+":"+sm+"-"+eh+":"+em);
 		}
 		Show_Panel.subjects.setModel(lista);
-		
+		if(Menu_Panel.filename.equals("")){
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Zapisz jako"); 
+			fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plik CSV(.csv)","csv"));
+			fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
+			int userSelection = fileChooser.showSaveDialog(this);
+		 
+			if (userSelection == JFileChooser.APPROVE_OPTION) {
+				File fileToSave = fileChooser.getSelectedFile();
+				Menu_Panel.filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+			}
+		}
+		try{
+			Menu_Panel.data.save(Menu_Panel.filename);
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(this,"Błąd zapisu pliku!");
+		}
 	}else if(e.getSource()==cancel){
-		
+		super.setVisible(false);
 	}
-	super.setVisible(false);
+	
 }
 
 }
