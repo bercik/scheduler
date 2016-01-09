@@ -30,7 +30,7 @@ public Window(){
 	super.setSize(sizeX,sizeY);
 	super.setVisible(true);
 	super.setLayout(new BorderLayout());
-	super.setResizable(true);
+	super.setResizable(false);
 	
 	menu=new Menu_Panel();
 	show=new Show_Panel();
