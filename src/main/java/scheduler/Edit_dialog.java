@@ -1,8 +1,12 @@
 package scheduler;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Edit_dialog extends Add_dialog {
 	Item old;
@@ -39,8 +43,10 @@ public class Edit_dialog extends Add_dialog {
 			String r=room.getText();
 			item=new Item(start,stop,name,lead,"FiIS",r);
 			Menu_Panel.data.editItem(old, item);
+			super.setVisible(false);
 			}catch(Exception ex){
-				System.out.println(ex.getMessage());
+				JOptionPane.showMessageDialog(this,
+					    "Nie można edytować przedmiotu!");
 			}
 			
 			DefaultListModel lista=new DefaultListModel();
@@ -57,9 +63,26 @@ public class Edit_dialog extends Add_dialog {
 				lista.addElement(""+i.getName()+","+i.getStart().getDay()+","+sh+":"+sm+"-"+eh+":"+em);
 			}
 			Show_Panel.subjects.setModel(lista);
+			if(Menu_Panel.filename.equals("")){
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Zapisz jako"); 
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plik CSV(.csv)","csv"));
+				fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
+				int userSelection = fileChooser.showSaveDialog(this);
+			 
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+					File fileToSave = fileChooser.getSelectedFile();
+					Menu_Panel.filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+				}
+			}
+			try{
+				Menu_Panel.data.save(Menu_Panel.filename);
+			}catch(Exception ex){
+				JOptionPane.showMessageDialog(this,"Błąd zapisu pliku!");
+			}
 		}else if(e.getSource()==cancel){
-			
+			super.setVisible(false);
 		}
-		super.setVisible(false);
+		
 	}
 }
