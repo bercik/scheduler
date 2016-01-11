@@ -182,7 +182,7 @@ public void actionPerformed(ActionEvent e){
 			lista.addElement(""+i.getName()+","+i.getStart().getDay()+","+sh+":"+sm+"-"+eh+":"+em);
 		}
 		Show_Panel.subjects.setModel(lista);
-		if(Menu_Panel.filename.equals("")){
+		if(Menu_Panel.filename.equals("")&&Menu_Panel.saving){
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setDialogTitle("Zapisz jako"); 
 			fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plik CSV(.csv)","csv"));
@@ -193,11 +193,15 @@ public void actionPerformed(ActionEvent e){
 				File fileToSave = fileChooser.getSelectedFile();
 				Menu_Panel.filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
 			}
+			if(userSelection==JFileChooser.CANCEL_OPTION){
+				Menu_Panel.saving=false;
+			}
 		}
 		try{
 			Menu_Panel.data.save(Menu_Panel.filename);
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(this,"Błąd zapisu pliku!");
+			if(Menu_Panel.saving)
+				JOptionPane.showMessageDialog(this,"Błąd zapisu pliku!");
 		}
 	}else if(e.getSource()==cancel){
 		super.setVisible(false);
