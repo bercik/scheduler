@@ -34,6 +34,7 @@ public class Menu_Panel extends JPanel implements ActionListener{
 	Show_Dialog show_dialog;
 	static ScheduleLocalDatabase data;
 	static String filename="";
+	static boolean saving=true;
 
 	public Menu_Panel(){
 		super.setPreferredSize(new Dimension(280,300));
@@ -115,7 +116,7 @@ public class Menu_Panel extends JPanel implements ActionListener{
 				        				lista.addElement(""+i.getName()+","+i.getStart().getDay()+","+sh+":"+sm+"-"+eh+":"+em);
 				        			}
 				        			Show_Panel.subjects.setModel(lista);
-				        			if(filename.equals("")){
+				        			if(filename.equals("")&&saving){
 				        				JFileChooser fileChooser = new JFileChooser();
 				        				fileChooser.setDialogTitle("Zapisz jako"); 
 				        				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plik CSV(.csv)","csv"));
@@ -125,6 +126,9 @@ public class Menu_Panel extends JPanel implements ActionListener{
 				        				if (userSelection == JFileChooser.APPROVE_OPTION) {
 				        					File fileToSave = fileChooser.getSelectedFile();
 				        					filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+				        				}
+				        				if(userSelection==JFileChooser.CANCEL_OPTION){
+				        					Menu_Panel.saving=false;
 				        				}
 				        			}
 				        			try{
@@ -148,22 +152,25 @@ public class Menu_Panel extends JPanel implements ActionListener{
 			show_dialog.setModal(true);
 			show_dialog.setVisible(true);
 		}else if(e.getSource()==save){
+			int userSelection=-1;
 			if(filename.equals("")){
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Zapisz jako"); 
 				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plik CSV(.csv)","csv"));
 				fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
-				int userSelection = fileChooser.showSaveDialog(this);
+				userSelection = fileChooser.showSaveDialog(this);
 			 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 					File fileToSave = fileChooser.getSelectedFile();
 					filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
 				}
+				
 			}
 			try{
 				data.save(filename);
 			}catch(Exception ex){
-				JOptionPane.showMessageDialog(this,"Nie można zapisać do pliku!");
+				if(userSelection==0)
+					JOptionPane.showMessageDialog(this,"Nie można zapisać do pliku!");
 			}
 		}else if(e.getSource()==load){
 			String file="";
