@@ -72,7 +72,9 @@ public class Edit_dialog extends Add_dialog {
 			 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 					File fileToSave = fileChooser.getSelectedFile();
-					Menu_Panel.filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+					Menu_Panel.filename=fileToSave.getPath();
+					if(!fileToSave.getPath().endsWith(".csv"))
+						Menu_Panel.filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
 				}
 				if(userSelection==JFileChooser.CANCEL_OPTION){
 					Menu_Panel.saving=false;
