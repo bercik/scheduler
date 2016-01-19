@@ -170,7 +170,6 @@ public class Menu_Panel extends JPanel implements ActionListener{
 				}
 				
 			}
-			JOptionPane.showMessageDialog(this,filename);
 			try{
 				data.save(filename);
 			}catch(Exception ex){
