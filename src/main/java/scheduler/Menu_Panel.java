@@ -125,7 +125,9 @@ public class Menu_Panel extends JPanel implements ActionListener{
 				        			 
 				        				if (userSelection == JFileChooser.APPROVE_OPTION) {
 				        					File fileToSave = fileChooser.getSelectedFile();
-				        					filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+				        					filename=fileToSave.getPath();
+				        					if(!fileToSave.getPath().endsWith(".csv"))
+				        						filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
 				        				}
 				        				if(userSelection==JFileChooser.CANCEL_OPTION){
 				        					Menu_Panel.saving=false;
@@ -162,10 +164,13 @@ public class Menu_Panel extends JPanel implements ActionListener{
 			 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 					File fileToSave = fileChooser.getSelectedFile();
-					filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+					filename=fileToSave.getPath();
+					if(!fileToSave.getPath().endsWith(".csv"))
+						filename=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
 				}
 				
 			}
+			JOptionPane.showMessageDialog(this,filename);
 			try{
 				data.save(filename);
 			}catch(Exception ex){
@@ -182,7 +187,7 @@ public class Menu_Panel extends JPanel implements ActionListener{
 		 
 			if (userSelection == JFileChooser.APPROVE_OPTION) {
 				File fileToSave = fileChooser.getSelectedFile();
-				file=fileToSave.getPath()+ "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+				file=fileToSave.getPath();
 			}
 			try{
 				data.load(file);
